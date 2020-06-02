@@ -1,33 +1,51 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8s: [v1.12.10, v1.14.10, v1.16.10, v1.18.3]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Create Kubernetes ${{ matrix.k8s }} cluster
+      id: kind
+      uses: engineerd/setup-kind@v0.3.0
+      with:
+        version: v0.8.1
+        config: hack/kubernetes/kind-psp.yaml
+        image: kindest/node:${{ matrix.k8s }}
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    - name: Prepare cluster for testing
+      id: local-path
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        echo "create standard pod security policies"
+        kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/psp/privileged-psp.yaml
+        kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/psp/baseline-psp.yaml
+        kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/psp/restricted-psp.yaml
+        echo "create roles and rolebindings for psp"
+        kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/kind/psp/cluster-roles.yaml
+        kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/kind/psp/role-bindings.yaml
+        echo "waiting for nodes to be ready ..."
+        kubectl wait --for=condition=Ready nodes --all --timeout=5m
+        kubectl get nodes
+        echo
+        kubectl version
+
+    - name: Test pod
+      run: |
+        kubectl apply -f ./hack/kubernetes/pod.yaml
+        sleep 10
+        kubectl get pods
+        sleep 10
+        kubectl get pods
+        sleep 10
+        kubectl get pods
