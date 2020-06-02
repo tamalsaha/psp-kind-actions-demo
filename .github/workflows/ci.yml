@@ -35,8 +35,34 @@ jobs:
         kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/kind/psp/cluster-roles.yaml
         kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/kind/psp/role-bindings.yaml
         echo "waiting for nodes to be ready ..."
-        kubectl wait --for=condition=Ready nodes --all --timeout=5m
-        kubectl get nodes
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        # kubectl wait --for=condition=Ready nodes --all --timeout=5m
+        # kubectl get nodes
         echo
         kubectl version --short
 
