@@ -38,7 +38,7 @@ jobs:
         kubectl wait --for=condition=Ready nodes --all --timeout=5m
         kubectl get nodes
         echo
-        kubectl version
+        kubectl version --short
 
     - name: Test pod
       run: |
@@ -48,4 +48,4 @@ jobs:
         sleep 10
         kubectl get pods
         sleep 10
-        kubectl get pods
+        kubectl get pods -o yaml
