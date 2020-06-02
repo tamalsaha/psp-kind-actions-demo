@@ -35,53 +35,14 @@ jobs:
         kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/kind/psp/cluster-roles.yaml
         kubectl apply -f https://github.com/appscodelabs/tasty-kube/raw/master/kind/psp/role-bindings.yaml
         echo "waiting for nodes to be ready ..."
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        kubectl get pods --all-namespaces -o wide
-        sleep 30
-        # kubectl wait --for=condition=Ready nodes --all --timeout=5m
+        kubectl wait --for=condition=Ready nodes --all --timeout=10m
         kubectl get nodes
         echo
         kubectl version --short
 
     - name: Test pod
       run: |
+        kubectl get pods --all-namespaces -o wide
         kubectl apply -f ./hack/kubernetes/pod.yaml
         sleep 10
         kubectl get pods
