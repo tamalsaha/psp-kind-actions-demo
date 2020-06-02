@@ -61,8 +61,28 @@ jobs:
         sleep 30
         kubectl get pods --all-namespaces
         sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
+        kubectl get pods --all-namespaces
+        sleep 30
         # kubectl wait --for=condition=Ready nodes --all --timeout=5m
-        # kubectl get nodes
+        kubectl get nodes
         echo
         kubectl version --short
 
